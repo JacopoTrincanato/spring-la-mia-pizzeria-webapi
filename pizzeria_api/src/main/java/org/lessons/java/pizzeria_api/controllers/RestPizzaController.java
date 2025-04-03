@@ -68,6 +68,9 @@ public class RestPizzaController {
             return new ResponseEntity<Pizza>(HttpStatus.NOT_FOUND);
         }
 
+        // imposto l'id
+        pizza.setId(id);
+
         // altrimenti mostro la pizza
         return new ResponseEntity<Pizza>(pizzaService.updatePizza(pizza), HttpStatus.OK);
 
