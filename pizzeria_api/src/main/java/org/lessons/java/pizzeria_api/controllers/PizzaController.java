@@ -59,10 +59,10 @@ public class PizzaController {
     }
 
     // metodo per trovare la pizza per nome
-    @GetMapping("/searchByName")
+    @GetMapping("/searchByNome")
     public String getSearchByTitle(@RequestParam(name = "nome") String nome, Model model) {
-        List<Pizza> pizza = pizzaService.findPizzeByName(nome);
-        model.addAttribute("pizza", pizza);
+        List<Pizza> pizze = pizzaService.findPizzeByName(nome);
+        model.addAttribute("pizze", pizze);
         return "pizze/index";
     }
 

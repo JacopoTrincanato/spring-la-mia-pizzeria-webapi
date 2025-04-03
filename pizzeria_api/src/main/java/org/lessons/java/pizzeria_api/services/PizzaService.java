@@ -26,7 +26,7 @@ public class PizzaService {
 
     // metodo per trovare le pizze per nome
     public List<Pizza> findPizzeByName(String nome) {
-        return pizzaRepository.findByNameContaining(nome);
+        return pizzaRepository.findByNomeContaining(nome);
     }
 
     // metodo per trovare la pizza per id

@@ -7,5 +7,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface PizzaRepository extends JpaRepository<Pizza, Integer> {
     // creo il metodo per trovare la pizza per titolo
-    public List<Pizza> findByNameContaining(String nome);
+    public List<Pizza> findByNomeContaining(String nome);
 }
