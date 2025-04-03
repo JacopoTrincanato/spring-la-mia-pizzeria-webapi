@@ -2,6 +2,8 @@ package org.lessons.java.pizzeria_api.models;
 
 import java.time.LocalDate;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -27,6 +29,8 @@ public class OffertaSpeciale {
     // pizza da cui dipendo
     @ManyToOne
     @JoinColumn(name = "pizza_id", nullable = false)
+    // prevengo il loop quando testo la chiamata api
+    @JsonIgnore
     private Pizza pizza;
 
     @Size(min = 5, max = 50, message = "Il titolo dell'offerta' deve avere almeno 5 caratteri")

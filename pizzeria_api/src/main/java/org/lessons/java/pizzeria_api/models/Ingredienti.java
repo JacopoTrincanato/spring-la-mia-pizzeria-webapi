@@ -2,6 +2,8 @@ package org.lessons.java.pizzeria_api.models;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -29,6 +31,8 @@ public class Ingredienti {
 
     // lista di pizze a cui fa riferimento
     @ManyToMany(mappedBy = "ingredienti")
+    // prevengo il loop quando testo la chiamata api
+    @JsonIgnore
     private List<Pizza> pizze;
 
     // metodi
