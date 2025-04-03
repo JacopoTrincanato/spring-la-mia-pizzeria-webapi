@@ -60,4 +60,15 @@ public class PizzaService {
         // cancello la pizza
         pizzaRepository.delete(pizza);
     }
+
+    // cancellazione delle offerte associate alla pizza
+    public void deleteOffertaById(Integer id) {
+        Pizza pizza = getPizzaById(id);
+
+        for (OffertaSpeciale OffertaDaEliminare : pizza.getOfferteSpeciali()) {
+            offertaRepository.delete(OffertaDaEliminare);
+        }
+
+        pizzaRepository.delete(pizza);
+    }
 }
