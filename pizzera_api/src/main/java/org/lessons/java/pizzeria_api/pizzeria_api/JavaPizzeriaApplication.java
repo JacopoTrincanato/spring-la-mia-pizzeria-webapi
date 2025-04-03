@@ -1,4 +1,4 @@
-package org.lessons.java.java_relazioni.java_pizzeria;
+package org.lessons.java.pizzeria_api.pizzeria_api;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

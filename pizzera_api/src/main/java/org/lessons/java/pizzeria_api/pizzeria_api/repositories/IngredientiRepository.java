@@ -1,6 +1,6 @@
-package org.lessons.java.java_relazioni.java_pizzeria.repositories;
+package org.lessons.java.pizzeria_api.pizzeria_api.repositories;
 
-import org.lessons.java.java_relazioni.java_pizzeria.models.Ingredienti;
+import org.lessons.java.pizzeria_api.pizzeria_api.models.Ingredienti;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface IngredientiRepository extends JpaRepository<Ingredienti, Integer> {

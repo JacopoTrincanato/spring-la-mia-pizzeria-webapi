@@ -1,7 +1,7 @@
-package org.lessons.java.java_relazioni.java_pizzeria.controllers;
+package org.lessons.java.pizzeria_api.pizzeria_api.controllers;
 
-import org.lessons.java.java_relazioni.java_pizzeria.models.OffertaSpeciale;
-import org.lessons.java.java_relazioni.java_pizzeria.repositories.OffertaSpecialeRepository;
+import org.lessons.java.pizzeria_api.pizzeria_api.models.OffertaSpeciale;
+import org.lessons.java.pizzeria_api.pizzeria_api.repositories.OffertaSpecialeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

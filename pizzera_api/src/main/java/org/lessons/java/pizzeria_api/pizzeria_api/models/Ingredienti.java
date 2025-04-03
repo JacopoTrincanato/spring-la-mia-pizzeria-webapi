@@ -1,4 +1,4 @@
-package org.lessons.java.java_relazioni.java_pizzeria.models;
+package org.lessons.java.pizzeria_api.pizzeria_api.models;
 
 import java.util.List;
 
