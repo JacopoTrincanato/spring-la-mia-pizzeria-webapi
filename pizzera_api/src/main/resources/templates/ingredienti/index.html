@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+
+<head>
+    <!--Inserisco il fragment per i tag dell'head-->
+    <th:block th:replace="~{fragments/resources :: headTags}"></th:block>
+    <title>Ingredienti</title>
+</head>
+
+<body class="bg-light">
+
+    <header>
+        <h1 class="text-center p-4">Lista ingredienti</h1>
+    </header>
+    <main>
+
+        <div class="container p-4 ">
+            <a th:href="@{/ingredienti/create}" class="btn btn-success m-auto mb-4">Aggiungi +</a>
+            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+
+                <div class="card" th:each="ingrediente : ${ingredienti}" th:object="${ingrediente}">
+
+                    <h4 class="mt-3">Nome: [[*{nome}]]</h4>
+
+                    <div class="d-flex justify-content-between flex-wrap">
+
+                        <!--Inserisco i fragment per i bottoni della card-->
+
+                        <div th:replace="~{fragments/resources :: cardButtons('/ingredienti/' + *{id}, 'Visualizza')}">
+                        </div>
+
+                        <div
+                            th:replace="~{fragments/resources :: cardButtons('/ingredienti/edit/' + *{id}, 'Modifica')}">
+                        </div>
+
+                        <!-- Bottone che triggera la modale -->
+                        <button type="button" class="btn btn-danger mb-3" data-bs-toggle="modal"
+                            th:data-bs-target="'#modal-' + *{id}">
+                            x
+                        </button>
+
+                        <!-- Modale -->
+                        <div class="modal fade" th:id="'modal-' + *{id}" data-bs-backdrop="static"
+                            data-bs-keyboard="false" tabindex="-1" aria-labelledby="modalLabel-[[*{id}]]"
+                            aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" th:id="'modalLabel-' + *{id}">
+                                            Cancellazione dell'ingrediente [[*{nome}]]
+                                        </h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        Sei sicuro di voler cancellare l'ingrediente?
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-bs-dismiss="modal">Chiudi</button>
+                                        <form th:action="@{/ingredienti/delete/{id}(id=*{id})}" method="post">
+                                            <button type="submit" class="btn btn-danger">Elimina</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </main>
+
+    <p th:if="${ingredienti.size() < 0}" th:text="Non ci sono ingredienti disponibili"></p>
+    <div th:replace="~{fragments/resources :: scripts}"></div>
+</body>
+
+</html>

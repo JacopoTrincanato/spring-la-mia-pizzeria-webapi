@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <!--Inserisco il fragment per i tag dell'head-->
+    <div th:replace="~{fragments/resources :: headTags}"></div>
+    <title>Create</title>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row" th:object="${pizza}">
+            <div class="col-12">
+                <h1 th:if="${edit}" class="text-center p-4">Aggiorna l'offerta della pizza</h1>
+
+                <h1 th:unless="${edit}" class="text-center p-4">Aggiungi un'offerta alla pizza</h1>
+                <div class="row justify-content-center">
+
+                    <!--Inserisco il form-->
+                    <form th:action="${edit} ? @{'/offerte/edit/' + ${offertaSpeciale.id}} : @{/offerte/create}"
+                        method="post" class="border border-black rounded p-4" th:object="${offertaSpeciale}">
+
+                        <!--input con le informazioni della pizza-->
+                        <input type="hidden" th:field="*{pizza}">
+
+                        <!--Creo i vari input-->
+                        <div class="mb-3">
+                            <label for="titolo">Titolo</label>
+                            <input type="text" placeholder="Inserisci il titolo dell'offerta" minlength="5"
+                                maxlength="50" id="titolo" class="form-control" th:field="*{titolo}"
+                                th:errorClass="is-invalid">
+                            <div class="invalid-feedback" th:if="${#fields.hasErrors('titolo')}">
+                                <ul class="list-unstyled">
+                                    <li th:each="error : ${#fields.errors('titolo')}" th:text="${error}"></li>
+                                </ul>
+
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="data-inizio">Data d'inizio offerta</label>
+                            <input type="date" class="form-control" id="data-inizio" th:field="*{dataInizio}"
+                                th:errorClass="is-invalid">
+
+                            <div class="invalid-feedback" th:if="${#fields.hasErrors('dataInizio')}">
+                                <ul>
+                                    <li th:each="error : ${#fields.errors('dataInizio')}" th:text="${error}"></li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="data-fine">Data di fine offerta</label>
+                            <input type="date" class="form-control" id="data-fine" th:field="*{dataFine}"
+                                th:errorClass="is-invalid">
+
+                            <div class="invalid-feedback" th:if="${#fields.hasErrors('dataFine')}">
+                                <ul>
+                                    <li th:each="error : ${#fields.errors('dataFine')}" th:text="${error}"></li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="mb-3 d-flex justify-content-around">
+                            <button type="submit" class="btn btn-success" th:unless="${edit}">Crea
+                                l'offerta</button>
+
+                            <button type="submit" class="btn btn-success" th:if="${edit}">Aggiorna
+                                l'offerta</button>
+
+                            <button type="reset" class="btn btn-warning">Resetta il form</button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

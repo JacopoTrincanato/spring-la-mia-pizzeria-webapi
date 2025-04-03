@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <div th:replace="~{fragments/resources :: headTags}"></div>
+    <title>Show</title>
+</head>
+
+<body th:object="${pizza}">
+
+    <header>
+        <h1 class="text-center p-4">Dettagli della pizza con id: [[*{id}]]</h1>
+    </header>
+
+    <main>
+        <div class="container m-auto mt-5 p-4 d-flex border border-black rounded gap-3">
+
+            <img th:src=*{urlFoto} class="w-25">
+            <div class="informations">
+
+                <h2 class="mb-3">Nome: [[*{nome}]]</h2>
+                <h2 class="mb-3">Ingredienti: [[*{descrizione}]]</h2>
+                <h2 class="mb-3">Prezzo: [[*{prezzo}]] euro</h2>
+            </div>
+
+        </div>
+
+        <div class="col-10 p-4 m-auto">
+            <h2 class="fw-bold">Ingredienti</h2>
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>nome</th>
+
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr th:each="ingrediente : *{ingredienti}">
+
+                        <td>[[${ingrediente.nome}]]</td>
+
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <section class="row mb-3 p-4">
+            <div class="col-10 m-auto" th:unless="${pizza.getOfferteSpeciali().size() > 0}">
+                <div class="alert alert-warning">
+                    <h4>Non ci sono offerte per questa pizza</h4>
+                </div>
+            </div>
+
+            <div class="col-12" th:if="${pizza.getOfferteSpeciali().size() > 0}">
+                <h2 class="fw-bold">Offerte Speciali</h2>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Titolo</th>
+                            <th>Data d'Inizio</th>
+                            <th>Data di fine</th>
+
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr th:each="offertaSpeciale : *{offerteSpeciali}" th:object="${offertaSpeciale}">
+
+                            <td>[[*{titolo}]]</td>
+                            <td>[[*{dataInizio}]]</td>
+                            <td>[[*{dataFine}]]</td>
+
+                            <td><a class="btn btn-dark" th:href="@{'/offerte/edit/' + *{id}}">Aggiorna</a>
+                            </td>
+
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+    </main>
+
+</body>
+
+</html>

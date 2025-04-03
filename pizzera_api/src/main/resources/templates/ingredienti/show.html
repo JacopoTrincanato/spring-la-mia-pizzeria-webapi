@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <div th:replace="~{fragments/resources :: headTags}"></div>
+    <title>Show</title>
+</head>
+
+<body th:object="${ingrediente}">
+
+    <header>
+        <h1 class="text-center p-4">Dettagli dell'ingrediente [[*{nome}]] con id: [[*{id}]]</h1>
+    </header>
+
+    <main>
+
+        <section class="row mb-3 p-4">
+            <div class="col-8 m-auto" th:unless="${ingrediente.getPizze().size() > 0}">
+                <div class="alert alert-warning">
+                    <h4>Nessuna pizza ha questo ingrediente</h4>
+                </div>
+            </div>
+            <div class="col-12">
+                <h2 class="fw-bold">Dettagli ingrediente</h2>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>Descrizione</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr>
+
+                            <td>[[*{nome}]]</td>
+                            <td>[[*{descrizione}]]</td>
+
+                            <td><a class="btn btn-light" th:href="@{'/ingredienti/edit/' + *{id}}">Aggiorna</a>
+                            </td>
+
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+    </main>
+
+</body>
+
+</html>
