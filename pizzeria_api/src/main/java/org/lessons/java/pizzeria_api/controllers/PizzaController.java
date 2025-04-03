@@ -5,8 +5,8 @@ import java.util.List;
 import org.lessons.java.pizzeria_api.models.OffertaSpeciale;
 import org.lessons.java.pizzeria_api.models.Pizza;
 import org.lessons.java.pizzeria_api.repositories.IngredientiRepository;
-import org.lessons.java.pizzeria_api.repositories.OffertaSpecialeRepository;
-import org.lessons.java.pizzeria_api.repositories.PizzaRepository;
+//import org.lessons.java.pizzeria_api.repositories.OffertaSpecialeRepository;
+import org.lessons.java.pizzeria_api.services.PizzaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import jakarta.validation.Valid;
 
@@ -23,12 +24,13 @@ import jakarta.validation.Valid;
 @RequestMapping("/pizze")
 public class PizzaController {
 
+    // chiamo il service della pizza
     @Autowired
-    private PizzaRepository repository;
+    private PizzaService pizzaService;
 
     // chiamo la repository delle offerte
-    @Autowired
-    private OffertaSpecialeRepository offertaRepository;
+    // @Autowired
+    // private OffertaSpecialeRepository offertaRepository;
 
     // chiamo la repository degli inredienti
     @Autowired
@@ -38,7 +40,7 @@ public class PizzaController {
     @GetMapping
     public String index(Model model) {
         // creo la lista di pizze
-        List<Pizza> pizze = repository.findAll();
+        List<Pizza> pizze = pizzaService.findPizze();
 
         model.addAttribute("pizze", pizze);
 
@@ -50,10 +52,18 @@ public class PizzaController {
     public String show(@PathVariable("id") Integer id, Model model) {
         model.addAttribute("id", id);
         // creo la singola pizza
-        Pizza pizza = repository.findById(id).get();
+        Pizza pizza = pizzaService.getPizzaById(id);
         model.addAttribute("pizza", pizza);
 
         return "pizze/show";
+    }
+
+    // metodo per trovare la pizza per nome
+    @GetMapping("/searchByName")
+    public String getSearchByTitle(@RequestParam(name = "nome") String nome, Model model) {
+        List<Pizza> pizza = pizzaService.findPizzeByName(nome);
+        model.addAttribute("pizza", pizza);
+        return "pizze/index";
     }
 
     // creo la rotta create
@@ -80,7 +90,7 @@ public class PizzaController {
         }
 
         // salvo il dato
-        repository.save(pizzaForm);
+        pizzaService.createPizza(pizzaForm);
 
         return "redirect:/pizze";
     }
@@ -90,7 +100,7 @@ public class PizzaController {
     public String edit(@PathVariable Integer id, Model model) {
         // prendo tutti gli ingredienti
         model.addAttribute("ingredienti", ingredientiRepository.findAll());
-        model.addAttribute("pizza", repository.findById(id).get());
+        model.addAttribute("pizza", pizzaService.getPizzaById(id));
         model.addAttribute("edit", true);
         return "pizze/create-or-edit";
     }
@@ -107,7 +117,7 @@ public class PizzaController {
         }
 
         // aggiorno il dato
-        repository.save(pizzaForm);
+        pizzaService.updatePizza(pizzaForm);
 
         return "redirect:/pizze/" + pizzaForm.getId();
     }
@@ -117,14 +127,16 @@ public class PizzaController {
     public String delete(@PathVariable Integer id) {
 
         // prendo tutte le offerte della pizza
-        Pizza pizza = repository.findById(id).get();
+        Pizza pizza = pizzaService.getPizzaById(id);
 
-        for (OffertaSpeciale offerteDaEliminare : pizza.getOfferteSpeciali()) {
-            offertaRepository.delete(offerteDaEliminare);
-        }
+        /*
+         * for (OffertaSpeciale offerteDaEliminare : pizza.getOfferteSpeciali()) {
+         * offertaRepository.delete(offerteDaEliminare);
+         * }
+         */
 
         // cancello la pizza
-        repository.delete(pizza);
+        pizzaService.deletePizza(pizza);
 
         return "redirect:/pizze";
     }
@@ -134,7 +146,7 @@ public class PizzaController {
     public String offertaSpeciale(@PathVariable Integer id, Model model) {
         // creo una nuova offerta
         OffertaSpeciale offertaSpeciale = new OffertaSpeciale();
-        offertaSpeciale.setPizza(repository.findById(id).get());
+        offertaSpeciale.setPizza(pizzaService.getPizzaById(id));
 
         model.addAttribute("offertaSpeciale", offertaSpeciale);
 
